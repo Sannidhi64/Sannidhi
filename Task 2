@@ -1,0 +1,100 @@
+
+import random
+
+def display_welcome_message():
+    print("Welcome to the Quiz Game!")
+    print("Answer the following questions to test your knowledge.")
+    print("Each correct answer scores 1 point. Let's begin!\n")
+
+def display_rules():
+    print("Rules:")
+    print("1. The quiz consists of 5 multiple-choice questions.")
+    print("2. Each question has 4 options, denoted by letters A, B, C, and D.")
+    print("3. To answer, type the letter corresponding to your choice (e.g., A, B, C, D).")
+    print("4. Each correct answer scores 1 point.")
+    print("5. No negative marking for wrong answers.\n")
+
+def generate_question():
+    questions = [
+        {
+            "question": "What is the capital of France?",
+            "options": ["A. London", "B. Paris", "C. Berlin", "D. Rome"],
+            "correct_answer": "B"
+        },
+        {
+            "question": "Which planet is known as the Red Planet?",
+            "options": ["A. Venus", "B. Mars", "C. Jupiter", "D. Saturn"],
+            "correct_answer": "B"
+        },
+        {
+            "question": "What is the chemical symbol for water?",
+            "options": ["A. H2O", "B. CO2", "C. O2", "D. NaCl"],
+            "correct_answer": "A"
+        },
+        {
+            "question": "Who painted the Mona Lisa?",
+            "options": ["A. Vincent van Gogh", "B. Leonardo da Vinci", "C. Pablo Picasso", "D. Michelangelo"],
+            "correct_answer": "B"
+        },
+        {
+            "question": "What is the largest mammal on Earth?",
+            "options": ["A. Elephant", "B. Blue Whale", "C. Giraffe", "D. Rhinoceros"],
+            "correct_answer": "B"
+        }
+    ]
+    return random.sample(questions, 5)
+
+def get_user_answer():
+    while True:
+        user_answer = input("Your answer: ").strip().upper()
+        if user_answer in ["A", "B", "C", "D"]:
+            return user_answer
+        else:
+            print("Invalid input. Please enter A, B, C, or D.")
+
+def evaluate_answer(question, user_answer):
+    return user_answer == question["correct_answer"]
+
+def display_feedback(is_correct):
+    if is_correct:
+        print("Correct! You scored 1 point.\n")
+    else:
+        print("Incorrect! The correct answer was {}.\n".format(question["correct_answer"]))
+
+def calculate_final_score(correct_answers):
+    return sum(correct_answers)
+
+def display_final_score(score):
+    print("Your Final Score: {}/5".format(score))
+
+def play_again():
+    return input("Do you want to play again? (yes/no): ").strip().lower() == "yes"
+
+def main():
+    display_welcome_message()
+    display_rules()
+    play = True
+
+    while play:
+        questions = generate_question()
+        correct_answers = 0
+
+        for idx, question in enumerate(questions, 1):
+            print("Question {}: {}".format(idx, question["question"]))
+            for option in question["options"]:
+                print(option)
+            
+            user_answer = get_user_answer()
+            is_correct = evaluate_answer(question, user_answer)
+            display_feedback(is_correct)
+
+            if is_correct:
+                correct_answers += 1
+        
+        display_final_score(correct_answers)
+        play = play_again()
+
+    print("Thank you for playing the Quiz Game!")
+
+if __name__ == "__main__":
+    main()
